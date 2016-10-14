@@ -1,0 +1,247 @@
+{
+    "sliders": [], 
+    "nodes": [
+        {
+            "y": 767.7999999999995, 
+            "x": -289.2999999999999, 
+            "class": "Negative", 
+            "uuid": "dbb56801-5e30-4cf6-a9f6-9c6a59ee09c5"
+        }, 
+        {
+            "y": 1138.0165289256197, 
+            "x": -135.5371900826446, 
+            "class": "Multiply", 
+            "uuid": "e24ac17c-1412-4fb0-b792-c2f1b746fde9"
+        }, 
+        {
+            "y": 1156.198347107438, 
+            "x": -263.6363636363636, 
+            "class": "Negative", 
+            "uuid": "09eca8c4-81b5-42a8-ad1c-9dc2a7342a9c"
+        }, 
+        {
+            "y": 1066.115702479339, 
+            "x": -375.20661157024784, 
+            "class": "If", 
+            "uuid": "e75a4a00-76d6-4f3f-a755-b263ab4e45da"
+        }, 
+        {
+            "y": 938.8429752066115, 
+            "x": -186.7768595041322, 
+            "class": "Multiply", 
+            "uuid": "d555b239-fcac-4150-9a28-c0684def19b4"
+        }, 
+        {
+            "y": 1028.099173553719, 
+            "x": -272.7272727272727, 
+            "class": "Negative", 
+            "uuid": "b22dbd07-85a1-438b-a7c8-8c101c80991b"
+        }, 
+        {
+            "y": 758.6570264462807, 
+            "x": -513.203549586777, 
+            "class": "If", 
+            "uuid": "103e328d-0985-4eb8-878d-4c54199238e2"
+        }, 
+        {
+            "y": 226.27644462809954, 
+            "x": -1058.295290082645, 
+            "class": "Faceware", 
+            "uuid": "2c6093ed-0d0f-4786-9a7e-f332c839afec"
+        }, 
+        {
+            "y": 0.0, 
+            "x": 0.0, 
+            "class": "FacialExpression", 
+            "uuid": "7393b52b-fbc8-49b3-beae-31ef26e34690"
+        }
+    ], 
+    "edges": [
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "07.JawRotateY", 
+            "source_name": "30.jaw_left"
+        }, 
+        {
+            "source_nodeId": "dbb56801-5e30-4cf6-a9f6-9c6a59ee09c5", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "11.JawMoveY", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "dbb56801-5e30-4cf6-a9f6-9c6a59ee09c5", 
+            "target_name": "*-1", 
+            "source_name": "29.jaw_open"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "09.JawRotateX", 
+            "source_name": "31.jaw_right"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "35.Eye Blink Right", 
+            "source_name": "20.eyes_rightEye_blink"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "34.Eye Blink Left", 
+            "source_name": "19.eyes_leftEye_blink"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "22.Lips drop right side", 
+            "source_name": "12.mouth_rightMouth_frown"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "21.Lips drop left side", 
+            "source_name": "11.mouth_leftMouth_frown"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "18.Lips Smirk Right", 
+            "source_name": "14.mouth_rightMouth_smile"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "17.Lips Smirk Left", 
+            "source_name": "13.mouth_leftMouth_smile"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "11.Lips Drop", 
+            "source_name": "06.mouth_down"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "08.Brow Raise Right", 
+            "source_name": "25.brows_rightBrow_up"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "07.Brow Raise Left", 
+            "source_name": "23.brows_leftBrow_up"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "06.Brows Drop Right", 
+            "source_name": "26.brows_rightBrow_down"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "05.Brows Drop Left", 
+            "source_name": "24.brows_leftBrow_down"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "02.Brows Raise Inner Right", 
+            "source_name": "27.brows_midBrows_up"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "01.Brows Raise Inner Left", 
+            "source_name": "27.brows_midBrows_up"
+        }, 
+        {
+            "source_nodeId": "e24ac17c-1412-4fb0-b792-c2f1b746fde9", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "downUp_r", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "e24ac17c-1412-4fb0-b792-c2f1b746fde9", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "downUp_l", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "e75a4a00-76d6-4f3f-a755-b263ab4e45da", 
+            "target_nodeId": "e24ac17c-1412-4fb0-b792-c2f1b746fde9", 
+            "target_name": "a", 
+            "source_name": "true"
+        }, 
+        {
+            "source_nodeId": "09eca8c4-81b5-42a8-ad1c-9dc2a7342a9c", 
+            "target_nodeId": "e24ac17c-1412-4fb0-b792-c2f1b746fde9", 
+            "target_name": "b", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "e75a4a00-76d6-4f3f-a755-b263ab4e45da", 
+            "target_nodeId": "09eca8c4-81b5-42a8-ad1c-9dc2a7342a9c", 
+            "target_name": "*-1", 
+            "source_name": "isTrue"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "e75a4a00-76d6-4f3f-a755-b263ab4e45da", 
+            "target_name": "b", 
+            "source_name": "18.eyes_lookUp"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "e75a4a00-76d6-4f3f-a755-b263ab4e45da", 
+            "target_name": "a", 
+            "source_name": "17.eyes_lookDown"
+        }, 
+        {
+            "source_nodeId": "d555b239-fcac-4150-9a28-c0684def19b4", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "rightLeft_r", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "d555b239-fcac-4150-9a28-c0684def19b4", 
+            "target_nodeId": "7393b52b-fbc8-49b3-beae-31ef26e34690", 
+            "target_name": "rightLeft_l", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "b22dbd07-85a1-438b-a7c8-8c101c80991b", 
+            "target_nodeId": "d555b239-fcac-4150-9a28-c0684def19b4", 
+            "target_name": "b", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "103e328d-0985-4eb8-878d-4c54199238e2", 
+            "target_nodeId": "d555b239-fcac-4150-9a28-c0684def19b4", 
+            "target_name": "a", 
+            "source_name": "true"
+        }, 
+        {
+            "source_nodeId": "103e328d-0985-4eb8-878d-4c54199238e2", 
+            "target_nodeId": "b22dbd07-85a1-438b-a7c8-8c101c80991b", 
+            "target_name": "*-1", 
+            "source_name": "isTrue"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "103e328d-0985-4eb8-878d-4c54199238e2", 
+            "target_name": "b", 
+            "source_name": "16.eyes_lookLeft"
+        }, 
+        {
+            "source_nodeId": "2c6093ed-0d0f-4786-9a7e-f332c839afec", 
+            "target_nodeId": "103e328d-0985-4eb8-878d-4c54199238e2", 
+            "target_name": "a", 
+            "source_name": "15.eyes_lookRight"
+        }
+    ]
+}
