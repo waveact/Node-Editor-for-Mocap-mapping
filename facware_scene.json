@@ -1,0 +1,295 @@
+{
+    "sliders": [], 
+    "nodes": [
+        {
+            "y": 572.0, 
+            "x": -1006.0, 
+            "class": "Const", 
+            "uuid": "90f69393-492a-4bb1-ba29-e19169c75335"
+        }, 
+        {
+            "y": 0.0, 
+            "x": 0.0, 
+            "class": "FacialExpression", 
+            "uuid": "6396aa65-cfce-4123-b853-cb734daba665"
+        }, 
+        {
+            "y": 63.26452818181839, 
+            "x": -341.7537518181819, 
+            "class": "Faceware", 
+            "uuid": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87"
+        }, 
+        {
+            "y": 440.0, 
+            "x": -679.0, 
+            "class": "Multiply", 
+            "uuid": "d6f25a57-69fe-46da-b9b8-9cb9ab017a06"
+        }, 
+        {
+            "y": 651.0, 
+            "x": -610.0, 
+            "class": "Multiply", 
+            "uuid": "7a4c43d7-008b-4bb9-a2c2-8f60d19b08a4"
+        }
+    ], 
+    "edges": [
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "11.JawMoveY", 
+            "source_name": "29.jaw_open"
+        }, 
+        {
+            "source_nodeId": "7a4c43d7-008b-4bb9-a2c2-8f60d19b08a4", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "07.JawRotateY", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "7a4c43d7-008b-4bb9-a2c2-8f60d19b08a4", 
+            "target_name": "a", 
+            "source_name": "30.jaw_left"
+        }, 
+        {
+            "source_nodeId": "d6f25a57-69fe-46da-b9b8-9cb9ab017a06", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "09.JawRotateX", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "d6f25a57-69fe-46da-b9b8-9cb9ab017a06", 
+            "target_name": "a", 
+            "source_name": "31.jaw_right"
+        }, 
+        {
+            "source_nodeId": "90f69393-492a-4bb1-ba29-e19169c75335", 
+            "target_nodeId": "7a4c43d7-008b-4bb9-a2c2-8f60d19b08a4", 
+            "target_name": "b", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "90f69393-492a-4bb1-ba29-e19169c75335", 
+            "target_nodeId": "d6f25a57-69fe-46da-b9b8-9cb9ab017a06", 
+            "target_name": "b", 
+            "source_name": "value"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "01.Brows Raise Inner Left", 
+            "source_name": "01.mouth_rightMouth_stretch"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "02.Brows Raise Inner Right", 
+            "source_name": "02.mouth_leftMouth_narrow"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "03.Brows Raise Outer Left", 
+            "source_name": "03.mouth_up"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "04.Brows Raise Outer Right", 
+            "source_name": "04.mouth_leftMouth_stretch"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "05.Brows Drop Left", 
+            "source_name": "05.mouth_rightMouth_narrow"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "06.Brows Drop Right", 
+            "source_name": "06.mouth_down"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "07.Brow Raise Left", 
+            "source_name": "07.mouth_upperLip_left_up"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "08.Brow Raise Right", 
+            "source_name": "08.mouth_upperLip_right_up"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "09.Cheek Raise Left", 
+            "source_name": "09.mouth_lowerLip_left_down"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "10.Cheek Raise Right", 
+            "source_name": "10.mouth_lowerLip_right_down"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "11.Lips Drop", 
+            "source_name": "11.mouth_leftMouth_frown"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "12.Nose Scrunch", 
+            "source_name": "12.mouth_rightMouth_frown"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "13.Nose Flank Raise Left", 
+            "source_name": "13.mouth_leftMouth_smile"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "14.Nose Flank Raise Right", 
+            "source_name": "14.mouth_rightMouth_smile"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "15.Nose Flank Raise", 
+            "source_name": "15.eyes_lookRight"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "16.Lips Smirk", 
+            "source_name": "16.eyes_lookLeft"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "17.Lips Smirk Left", 
+            "source_name": "17.eyes_lookDown"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "18.Lips Smirk Right", 
+            "source_name": "18.eyes_lookUp"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "19.Lips widen sides", 
+            "source_name": "19.eyes_leftEye_blink"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "20.Lips Drop Sides", 
+            "source_name": "20.eyes_rightEye_blink"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "21.Lips drop left side", 
+            "source_name": "21.eyes_leftEye_wide"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "22.Lips drop right side", 
+            "source_name": "22.eyes_rightEye_wide"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "23.Chin Raise", 
+            "source_name": "23.brows_leftBrow_up"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "24.Lips Puckered", 
+            "source_name": "24.brows_leftBrow_down"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "25.Lips widen", 
+            "source_name": "25.brows_rightBrow_up"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "26.Lips Puckered Open", 
+            "source_name": "26.brows_rightBrow_down"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "27.Eyelids Enlarge", 
+            "source_name": "27.brows_midBrows_up"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "28.Lips Zipped Tight", 
+            "source_name": "28.brows_midBrows_down"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "29.Mouth Open", 
+            "source_name": "29.jaw_open"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "30.Lips Raise Top", 
+            "source_name": "30.jaw_left"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "31.Lips Tuck", 
+            "source_name": "31.jaw_right"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "32.Eye Squint", 
+            "source_name": "32.mouth_phoneme_oh_q"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "33.Eye Blink", 
+            "source_name": "33.mouth_right"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "34.Eye Blink Left", 
+            "source_name": "34.mouth_left"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "35.Eye Blink Right", 
+            "source_name": "35.mouth_phoneme_mbp"
+        }, 
+        {
+            "source_nodeId": "c18f5a73-dee9-48a7-b652-1a5a46e0dc87", 
+            "target_nodeId": "6396aa65-cfce-4123-b853-cb734daba665", 
+            "target_name": "36.Lips Open", 
+            "source_name": "36.mouth_phoneme_ch"
+        }
+    ]
+}
