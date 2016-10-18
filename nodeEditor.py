@@ -1,7 +1,7 @@
-import os, PySide2, struct, socket, json
+import os, PySide2, struct, socket, json, Queue
 from PySide2 import QtGui
 from PySide2.QtWidgets import QWidget
-
+from PySide2.QtCore import QThread
 from PySide2 import QtCore
 from PySide2.QtWidgets import *
 
@@ -54,50 +54,102 @@ class Add(Node):
         self.knob("value").value = self.knob("a").value + self.knob("b").value
         self.value = self.knob("value").value
         #print self.knob("value").value
+
+class CacheBuffer():
+    def __init__(self):
+        self.queue = Queue.Queue(maxsize = 10)
+        self.lock = False
+        
+    def setData( self, dataX ):
+        if self.queue.qsize() == 10:
+            return
+        while self.lock == True:
+            pass
+        self.lock = True
+        #print 'setData'
+        self.queue.put(dataX)
+        #print self.queue.qsize()
+        self.lock = False
+        
+    def getData(self):
+        if self.queue.qsize() == 0:
+            return None
+        self.lock = True
+        while self.queue.qsize() != 0:
+            data = self.queue.get()
+        self.lock = False
+        return data
+        
+class DataThread(QThread):
+    def __init__(self,subData,parent=None):
+        QThread.__init__(self,parent)
+        self.subData = subData
     
-    
+    def run(self):
+        while True:
+            if ( self.subData.sock != None ):
+                self.subData.streamCacheBuffer.setData( self.subData.sock.recv(64*1024) )
+                self.subData.loop()
+        #self.sleep(0)
+        
 class Faceware(Node):
 
     def __init__(self, *args, **kwargs):
         global facewareList
+        #QThread.__init__(self)
         super(Faceware, self).__init__(*args, **kwargs)
         self.sock = None
         self.addHeader(Header(node=self, text=self.__class__.__name__))
         #self.addWidget(PySide2.QtWidgets.QPushButton( "Start Record" ))
         for i in range(len(facewareList)):
             self.addKnob(OutputKnob(name=facewareList[i]))
-    
+        self.thread = None
+        self.serverExiting = False
+       
     def start(self):
-        print ("start from Faceware")
-        
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        facewareSock_server_address = ('localhost', 802)
-        self.sock.connect(facewareSock_server_address)
-        #icpy===================
-        #scriptEvent.Append("Timer","Loop()",[1, -1])
-        #=======================
-        
-        self.loop()
-        
-        #while True:
-            #self.loop()
+        if self.sock == None:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            facewareSock_server_address = ('localhost', 802)
+            self.sock.settimeout(5)
+            try:
+                self.streamCacheBuffer = CacheBuffer()
+                self.sock.connect(facewareSock_server_address)
+                self.thread = DataThread(self)
+                self.thread.start()
+                self.loop()
+                if self.serverExiting == False:
+                    self.serverExiting = True
+            except socket.timeout:
+                self.serverExiting = False
         
         
     def stop(self):
-        self.sock.close()
+        print "stop"
+        if ( self.thread != None ):
+            print "thread is" + str(self.thread.isRunning())
+            self.thread.terminate()
+            self.thread.wait()
+            print "thread is " + str(self.thread.isRunning())
+            self.thread = None
+        if ( self.sock != None ):
+            self.sock.close()
+            self.sock = None
+        self.serverExiting = False
         #icpy===================
         #scriptEvent.StopTimer()
         #=======================
     
     def loop(self):
-        received = 0
-        received = self.sock.recv(64*1024)  
-        self.extractData(received)
+        #while True:
+        received = self.streamCacheBuffer.getData()
+        if (received != None):
+            #print received
+            self.extractData(received)
     
     def extractData(self, received):
         reciv=received[0]+received[1]+received[2]+received[3]
         blockSize = struct.unpack('i', reciv)[0]
-        
+        print "blockSize: " + str(blockSize)
         if (len(received)) >= blockSize:
             dataType = "i"
             for i in range(len(received)-4, 0, -1):
@@ -111,7 +163,6 @@ class Faceware(Node):
             self.analystData(data)
         
     def analystData(self,_json):
-        print "analystData"
         
         packer = struct.Struct('iifffffffffffffffffffffffffffffffffffffffffffffffff')
         bufferSize = struct.calcsize('iifffffffffffffffffffffffffffffffffffffffffffffffff')
@@ -124,7 +175,7 @@ class Faceware(Node):
             try:
                 self.knob(name).value = data[data_name]
             except:
-                print "error"
+                pass
             
         self.value = []
         for knob in self.knobs():

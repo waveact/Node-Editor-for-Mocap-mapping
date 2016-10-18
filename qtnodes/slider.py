@@ -28,7 +28,7 @@ class Slider(QGraphicsItem):
         self.x = 0
         self.y = 0
         self.h = 10
-        self.w = 200
+        self.w = 0
         #self.parent = 
         
         self.textColor = QtGui.QColor(0, 0, 0)
@@ -45,6 +45,7 @@ class Slider(QGraphicsItem):
 
     def paint(self, painter, option, widget):
         # Draw background rectangle.
+        self.w = self.parentItem().w
         bbox = self.boundingRect()
 
         painter.setPen(QtGui.QPen(QtCore.Qt.NoPen))

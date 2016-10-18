@@ -1,9 +1,10 @@
 import script
 import scriptEvent
-import os, PySide2, struct, socket, json, sys
+import os, PySide2, struct, socket, json, sys, Queue
 from PySide2 import QtGui
 from PySide2.QtWidgets import QWidget
 
+from PySide2.QtCore import QThread
 from PySide2 import QtCore
 from PySide2.QtWidgets import *
 
@@ -15,6 +16,8 @@ sys.path.insert(0, ResPath) # or sys.path.append('/path/to/application/app/folde
 from qtnodes import (Header, Node, InputKnob,
                      OutputKnob, NodeGraphWidget, Slider)
 
+
+                     
 facewareList = [ "01.mouth_rightMouth_stretch", "02.mouth_leftMouth_narrow", "03.mouth_up", "04.mouth_leftMouth_stretch", "05.mouth_rightMouth_narrow", "06.mouth_down", "07.mouth_upperLip_left_up", "08.mouth_upperLip_right_up", "09.mouth_lowerLip_left_down", "10.mouth_lowerLip_right_down", "11.mouth_leftMouth_frown", "12.mouth_rightMouth_frown", "13.mouth_leftMouth_smile", "14.mouth_rightMouth_smile", "15.eyes_lookRight", "16.eyes_lookLeft", "17.eyes_lookDown", "18.eyes_lookUp", "19.eyes_leftEye_blink", "20.eyes_rightEye_blink", "21.eyes_leftEye_wide", "22.eyes_rightEye_wide", "23.brows_leftBrow_up", "24.brows_leftBrow_down", "25.brows_rightBrow_up", "26.brows_rightBrow_down", "27.brows_midBrows_up", "28.brows_midBrows_down", "29.jaw_open", "30.jaw_left", "31.jaw_right", "33.mouth_right", "34.mouth_left", "35.mouth_phoneme_mbp", "36.mouth_phoneme_ch", "37.mouth_phoneme_fv", "38.head_up", "39.head_down", "40.head_left", "41.head_right", "42.head_LeftTilt", "43.head_RightTilt" ]
 
                  
@@ -32,6 +35,33 @@ feHead = ["head_up_down", "head_right_left", "head_tilt"]
 #7:JawRotateY, 8:JawRotateZ, 9:JawRotateX 10:JawMoveX, 11:JawMoveY, 12:JawMoveZ
 feBone = ["01", "02", "03", "04", "05", "06", "07.JawRotateY", "08.JawRotateZ", "09.JawRotateX", "10.JawMoveX", "11.JawMoveY", "12.JawMoveZ"]
 
+class CacheBuffer():
+    def __init__(self):
+        self.queue = Queue.Queue(maxsize = 10)
+        self.lock = False
+    def setData( self, dataX ):
+        if self.queue.qsize() == 10:
+            return
+        while self.lock == True:
+            pass
+        self.lock = True
+        print 'setData'
+        self.queue.put(dataX)
+        self.lock = False
+    def getData(self):
+
+        if self.queue.qsize() == 0:
+            return None
+
+        self.lock = True
+
+        return self.queue.get()
+        while self.queue.qsize() != 0:
+            self.queue.get()
+        self.lock = False
+
+streamCacheBuf = CacheBuffer()
+        
 class Debug(Node):
     def __init__(self, *args, **kwargs):
         super(Debug, self).__init__(*args, **kwargs)
@@ -129,8 +159,48 @@ class Add(Node):
         self.knob("value").value = self.knob("a").value + self.knob("b").value
         self.value = self.knob("value").value
         #print self.knob("value").value
+
+class CacheBuffer():
+    def __init__(self):
+        self.queue = Queue.Queue(maxsize = 10)
+        self.lock = False
+        
+    def setData( self, dataX ):
+        if self.queue.qsize() == 10:
+            return
+        while self.lock == True:
+            pass
+        self.lock = True
+        print 'setData'
+        self.queue.put(dataX)
+        print self.queue.qsize()
+        self.lock = False
+        
+    def getData(self):
+        if self.queue.qsize() == 0:
+            return None
+        self.lock = True
+        while self.queue.qsize() != 0:
+            data = self.queue.get()
+        self.lock = False
+        return data
+        
+class DataThread(QThread):
+    def __init__(self,subData,parent=None):
+        QThread.__init__(self,parent)
+        self.subData = subData
     
-class Faceware(Node):
+    def __del__(self):
+        self.quit()
+        self.wait()
+    
+    def run(self):
+        while True:
+            self.subData.streamCacheBuffer.setData( self.subData.sock.recv(64*1024) )
+            #self.subData.loop()
+        #self.sleep(0)
+        
+class Faceware(Node, QThread):
 
     def __init__(self, *args, **kwargs):
         global facewareList
@@ -142,33 +212,49 @@ class Faceware(Node):
         #self.addWidget(PySide2.QtWidgets.QPushButton( "Start Record" ))
         for i in range(len(facewareList)):
             self.addKnob(OutputKnob(name=facewareList[i]))
+        
+        self.thread = None
+        self.serverExiting = False
+        
+    def run(self):
+        global streamCacheBuf
+        if self.sock != None:
+            self.streamData = self.sock.recv(64*1024)
+            streamCacheBuf.setData( self.streamData )
     
     def start(self):
-        print ("start from Faceware")
-        
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        facewareSock_server_address = ('localhost', 802)
-        self.sock.connect(facewareSock_server_address)
-        #icpy===================
-        #scriptEvent.Append("Timer","loop()",[1, -1])
-        #=======================
-        
-        #self.loop()
-        
-        #while True:
-            #self.loop()
-        
+        if self.sock == None:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            facewareSock_server_address = ('localhost', 802)
+            self.sock.settimeout(5)
+            try:
+                self.streamCacheBuffer = CacheBuffer()
+                self.sock.connect(facewareSock_server_address)
+                self.thread = DataThread(self)
+                self.thread.start()
+                self.loop()
+                if self.serverExiting == False:
+                    self.serverExiting = True
+            except socket.timeout:
+                self.serverExiting = False
         
     def stop(self):
-        self.sock.close()
-        #icpy===================
-        scriptEvent.StopTimer()
-        #=======================
+        print "stop"
+        if ( self.thread != None ):
+            print "thread is" + str(self.thread.isRunning())
+            self.thread.terminate()
+            self.thread.wait()
+            print "thread is " + str(self.thread.isRunning())
+            self.thread = None
+        if ( self.sock != None ):
+            self.sock.close()
+            self.sock = None
+        self.serverExiting = False
     
     def loop(self):
-        received = 0
-        received = self.sock.recv(64*1024)  
-        self.extractData(received)
+        received = self.streamCacheBuffer.getData()
+        if (received != None):
+            self.extractData(received)
     
     def extractData(self, received):
         reciv=received[0]+received[1]+received[2]+received[3]
@@ -225,7 +311,9 @@ class Faceware(Node):
         
     def update(self):
         super(Faceware, self).update()
-    
+
+#debugMsg( Faceware.__mro__ )        
+
 class FacialExpression(Node):
     def __init__(self, *args, **kwargs):
         global feRegularList
@@ -333,11 +421,14 @@ def startButtonClick():
         node.isUpdate = False
         node.start()
     
+    scriptEvent.Append("Timer","loop()",[1, -1])
+    '''
     for node in nodes:
         #print debugMsg(node.className)
         if ( node.className == "Faceware" ):
             #debugMsg("Faceware")
             scriptEvent.Append("Timer","loop()",[1, -1])
+    '''
     
 def loop():
     nodes = graph.getNodes()
@@ -348,9 +439,7 @@ def loop():
     for node in nodes:
         if ( node.className == "FacialExpression" ):
             node.update()
-    
-            
-    
+
 def stopButtonClick():
     print ("stop")
     nodes = graph.getNodes()
