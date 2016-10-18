@@ -18,7 +18,7 @@ from qtnodes import (Header, Node, InputKnob,
 
 
                      
-facewareList = [ "01.mouth_rightMouth_stretch", "02.mouth_leftMouth_narrow", "03.mouth_up", "04.mouth_leftMouth_stretch", "05.mouth_rightMouth_narrow", "06.mouth_down", "07.mouth_upperLip_left_up", "08.mouth_upperLip_right_up", "09.mouth_lowerLip_left_down", "10.mouth_lowerLip_right_down", "11.mouth_leftMouth_frown", "12.mouth_rightMouth_frown", "13.mouth_leftMouth_smile", "14.mouth_rightMouth_smile", "15.eyes_lookRight", "16.eyes_lookLeft", "17.eyes_lookDown", "18.eyes_lookUp", "19.eyes_leftEye_blink", "20.eyes_rightEye_blink", "21.eyes_leftEye_wide", "22.eyes_rightEye_wide", "23.brows_leftBrow_up", "24.brows_leftBrow_down", "25.brows_rightBrow_up", "26.brows_rightBrow_down", "27.brows_midBrows_up", "28.brows_midBrows_down", "29.jaw_open", "30.jaw_left", "31.jaw_right", "33.mouth_right", "34.mouth_left", "35.mouth_phoneme_mbp", "36.mouth_phoneme_ch", "37.mouth_phoneme_fv", "38.head_up", "39.head_down", "40.head_left", "41.head_right", "42.head_LeftTilt", "43.head_RightTilt" ]
+facewareList = [ "01.mouth_rightMouth_stretch", "02.mouth_leftMouth_narrow", "03.mouth_up", "04.mouth_leftMouth_stretch", "05.mouth_rightMouth_narrow", "06.mouth_down", "07.mouth_upperLip_left_up", "08.mouth_upperLip_right_up", "09.mouth_lowerLip_left_down", "10.mouth_lowerLip_right_down", "11.mouth_leftMouth_frown", "12.mouth_rightMouth_frown", "13.mouth_leftMouth_smile", "14.mouth_rightMouth_smile", "15.eyes_lookRight", "16.eyes_lookLeft", "17.eyes_lookDown", "18.eyes_lookUp", "19.eyes_leftEye_blink", "20.eyes_rightEye_blink", "21.eyes_leftEye_wide", "22.eyes_rightEye_wide", "23.brows_leftBrow_up", "24.brows_leftBrow_down", "25.brows_rightBrow_up", "26.brows_rightBrow_down", "27.brows_midBrows_up", "28.brows_midBrows_down", "29.jaw_open", "30.jaw_left", "31.jaw_right", "32.mouth_phoneme_oh_q", "33.mouth_right", "34.mouth_left", "35.mouth_phoneme_mbp", "36.mouth_phoneme_ch", "37.mouth_phoneme_fv", "38.head_up", "39.head_down", "40.head_left", "41.head_right", "42.head_LeftTilt", "43.head_RightTilt" ]
 
                  
 feRegularList = [ "01.Brows Raise Inner Left", "02.Brows Raise Inner Right", "03.Brows Raise Outer Left", "04.Brows Raise Outer Right", "05.Brows Drop Left", "06.Brows Drop Right", "07.Brow Raise Left", "08.Brow Raise Right", "09.Cheek Raise Left", "10.Cheek Raise Right", "11.Lips Drop", "12.Nose Scrunch", "13.Nose Flank Raise Left", "14.Nose Flank Raise Right", "15.Nose Flank Raise", "16.Lips Smirk", "17.Lips Smirk Left", "18.Lips Smirk Right", "19.Lips widen sides", "20.Lips Drop Sides", "21.Lips drop left side", "22.Lips drop right side", "23.Chin Raise", "24.Lips Puckered", "25.Lips widen", "26.Lips Puckered Open", "27.Eyelids Enlarge", "28.Lips Zipped Tight", "29.Mouth Open", "30.Lips Raise Top", "31.Lips Tuck", "32.Eye Squint", "33.Eye Blink", "34.Eye Blink Left", "35.Eye Blink Right", "36.Lips Open" ]
@@ -92,6 +92,71 @@ class Negative(Node):
         self.knob("value").value = self.knob("*-1").value*-1
         self.value = self.knob("value").value
 
+class If2(Node):
+    def __init__(self, *args, **kwargs):
+        super(If2, self).__init__(*args, **kwargs)
+        self.className = "If2"
+        self.addHeader(Header(node=self, text="A>>>B"))
+        self.addKnob(InputKnob(name="a"))
+        self.addKnob(InputKnob(name="b"))
+        self.addKnob(InputKnob(name="true value"))
+        self.addKnob(InputKnob(name="false value"))
+        self.addKnob(OutputKnob(name="value"))
+    
+    def update(self):
+        super(If2, self).update()
+        #debugMsg(self.knob("a").value)
+        #debugMsg(self.knob("b").value)
+        if ( self.knob("a").value > self.knob("b").value ):
+            
+            self.knob("value").value = self.knob("true value").value
+            self.value = self.knob("true value").value
+        else:
+            self.knob("value").value = self.knob("false value").value
+            self.value = self.knob("false value").value
+        #debugMsg(self.value)
+
+class Const(Node):
+    def __init__(self, *args, **kwargs):
+        super(Const, self).__init__(*args, **kwargs)
+        self.className = "Const"
+        self.addHeader(Header(node=self, text="0"))
+        self.addKnob(OutputKnob(name="value"))
+        self.value = 0
+        
+    def mouseDoubleClickEvent(self, event):
+        self.setValueDialog = QDialog()
+        #setValueDialog.setWindowTitle = "aaa"
+        vBoxLayout = PySide2.QtWidgets.QVBoxLayout()
+        self.setValueDialog.setLayout(vBoxLayout)
+        self.spinbox = QSpinBox()
+        self.spinbox.setMaximum(100)
+        self.spinbox.setMinimum(-100)
+        self.spinbox.setValue( self.value )
+        vBoxLayout.addWidget( self.spinbox )
+        self.applyButton = QPushButton("Apply")
+        vBoxLayout.addWidget( self.applyButton )
+        self.applyButton.clicked.connect( self.applyButtonPress )
+        self.setValueDialog.show() 
+        self.setValueDialog.exec_()
+    
+    def applyButtonPress(self):
+        self.value = self.spinbox.value()
+        print self.value
+        self.knob("value").value = self.value
+        self.setValueDialog.reject()
+        #self.header.setHeader("Const: " + str(self.value))
+        self.header.setHeader(str(self.value))
+        
+    def update(self):
+        super(Const, self).update()
+        #debugMsg(self.knob("a").value)
+        #debugMsg(self.knob("b").value)
+        self.value = self.knob("value").value
+        #self.header.setHeader("Const: " + str(self.value))
+        self.header.setHeader(str(self.value))
+        #debugMsg(self.value)
+        
 class If(Node):
     def __init__(self, *args, **kwargs):
         super(If, self).__init__(*args, **kwargs)
@@ -374,6 +439,8 @@ graph = NodeGraphWidget()
 #graph.autoFillBackground = True
 graph.registerNodeClass(Debug)
 graph.registerNodeClass(If)
+graph.registerNodeClass(If2)
+graph.registerNodeClass(Const)
 graph.registerNodeClass(Weight)
 graph.registerNodeClass(Add)
 graph.registerNodeClass(Multiply)

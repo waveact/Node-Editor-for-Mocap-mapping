@@ -19,6 +19,47 @@ feEye = []
 
 feHead = []
 
+class Const(Node):
+    def __init__(self, *args, **kwargs):
+        super(Const, self).__init__(*args, **kwargs)
+        self.className = "Const"
+        self.addHeader(Header(node=self, text="0"))
+        self.addKnob(OutputKnob(name="value"))
+        self.value = 0
+        
+    def mouseDoubleClickEvent(self, event):
+        self.setValueDialog = QDialog()
+        #setValueDialog.setWindowTitle = "aaa"
+        vBoxLayout = PySide2.QtWidgets.QVBoxLayout()
+        self.setValueDialog.setLayout(vBoxLayout)
+        self.spinbox = QSpinBox()
+        self.spinbox.setMaximum(100)
+        self.spinbox.setMinimum(-100)
+        self.spinbox.setValue( self.value )
+        vBoxLayout.addWidget( self.spinbox )
+        self.applyButton = QPushButton("Apply")
+        vBoxLayout.addWidget( self.applyButton )
+        self.applyButton.clicked.connect( self.applyButtonPress )
+        self.setValueDialog.show() 
+        self.setValueDialog.exec_()
+    
+    def applyButtonPress(self):
+        self.value = self.spinbox.value()
+        print self.value
+        self.knob("value").value = self.value
+        self.setValueDialog.reject()
+        #self.header.setHeader("Const: " + str(self.value))
+        self.header.setHeader(str(self.value))
+        
+    def update(self):
+        super(Const, self).update()
+        #debugMsg(self.knob("a").value)
+        #debugMsg(self.knob("b").value)
+        self.value = self.knob("value").value
+        #self.header.setHeader("Const: " + str(self.value))
+        self.header.setHeader(str(self.value))
+        #debugMsg(self.value)
+
 class Weight(Node):
     def __init__(self, *args, **kwargs):
         super(Weight, self).__init__(*args, **kwargs)
@@ -231,6 +272,7 @@ graph = NodeGraphWidget()
 #graph.resize(500,500)
 #graph.autoFillBackground = True
 graph.registerNodeClass(Weight)
+graph.registerNodeClass(Const)
 graph.registerNodeClass(Add)
 graph.registerNodeClass(Multiply)
 graph.registerNodeClass(FacialExpression)

@@ -30,6 +30,7 @@ class Header(QGraphicsItem):
         return rect
 
     def paint(self, painter, option, widget):
+        #print "paint"
         # Draw background rectangle.
         bbox = self.boundingRect()
 
@@ -56,7 +57,11 @@ class Header(QGraphicsItem):
         painter.drawText(self.x() + self.node.margin,
                          self.y() + (self.h + textSize.height() / 2) / 2,
                          self.text)
-
+    
+    def setHeader(self, _text):
+        self.text = _text
+        #print self.text
+    
     def destroy(self):
         """Remove this object from the scene and delete it."""
         print("destroy header:", self)
